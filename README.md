@@ -1,6 +1,6 @@
 # Requirements
 
-We are making a system for admins to manage logistics of meal delivery. There are many delivery zones and restaurants. Each restaurant has many meals and is scheduled to deliver to multiple delivery zones everyday. For example, on Monday restaurant A and B will deliver to zone1 while restaurant A and C deliver to zone2; on Tuesday restaurant B will deliver to zone2 while restaurant C deliver to zone1, etc. The system needs to generate and manage the schedule automatically. Repeated assignments should be minimized, which means a restaurant should not be assigned to the same delivery zone twice unless it has been assigned to every other delivery zone.
+We are making a system for admins to manage logistics of meal delivery. There are many delivery zones and restaurants. Each restaurant has many meals and is scheduled to deliver to at most 3 delivery zones everyday. For example, on Monday restaurant A and B will deliver to zone1 while restaurant A and C deliver to zone2; on Tuesday restaurant B will deliver to zone2 while restaurant C deliver to zone1, etc. The system needs to generate and manage the schedule automatically. Repeated assignments should be minimized, which means a restaurant should not be assigned to the same delivery zone repeatedly unless it has been assigned to every other delivery zone (users in each delivery zone want to see different restaurants everyday).
 
 Design and implement this system using Ruby on Rails and satisfy the user stories below. Please write your specs using RSpec and views using HAML.
 
