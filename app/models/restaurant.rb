@@ -27,7 +27,8 @@ class Restaurant < ApplicationRecord
     def self.find_least_assigned_available(delivery_zone_id, day)
         least_assigned = self
             .find_least_assigned(delivery_zone_id)
-            .having("sum(case when assignments.date = '#{day}' and assignments.delivery_zone_id = #{delivery_zone_id} THEN 1 ELSE 0 end) < 3")
+            .having("sum(case when assignments.date = '#{day}' THEN 1 ELSE 0 end) < 3") # Having less than 3 delivery zones in the same day
+            .having("sum(case when assignments.delivery_zone_id = #{delivery_zone_id} THEN 1 ELSE 0 end) < 1") # Having not already delivered to this delivery zone
         least_assigned = least_assigned.where('restaurants.id not in (?)', self.restricted_ids(delivery_zone_id, day)) unless self.restricted_ids(delivery_zone_id, day).blank?
         least_assigned.first
     end

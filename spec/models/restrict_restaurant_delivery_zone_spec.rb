@@ -12,5 +12,14 @@
 require 'rails_helper'
 
 RSpec.describe RestrictRestaurantDeliveryZone, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+    it { is_expected.to belong_to(:restaurant) }
+    it { is_expected.to belong_to(:delivery_zone) }
+
+    it { is_expected.to respond_to(:id) }
+    it { is_expected.to respond_to(:restaurant_id) }
+    it { is_expected.to respond_to(:restaurant) }
+    it { is_expected.to respond_to(:delivery_zone_id) }
+    it { is_expected.to respond_to(:delivery_zone) }
+    it { is_expected.to respond_to(:created_at) }
+    it { is_expected.to respond_to(:updated_at) }
 end

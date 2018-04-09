@@ -40,15 +40,19 @@ class Assignment < ApplicationRecord
     # day: The date to make the assignment for
     #   Assignment.assign_deliveries_for_day(Date.today)
     def self.assign_deliveries_for_day(day)
+        # If no restaurants, none to assign.
+        return if Restaurant.all.size == 0 
         # Assign companies to all delivery zones
         DeliveryZone.all.order("created_at asc").each do | delivery_zone |
             # Assign up to 4 restaurants
             while delivery_zone.assignments.where(date: day).count < 4
+                r = Restaurant.find_least_assigned_available(delivery_zone.id, day)
                 Assignment.new(
                     date: day,
                     delivery_zone_id: delivery_zone.id,
-                    restaurant_id: Restaurant.find_least_assigned_available(delivery_zone.id, day).id
-                ).save!
+                    restaurant_id: r.id
+                ).save! unless r.nil?
+                break if r.nil?
             end
         end
     end
