@@ -1,3 +1,6 @@
+##
+# This class represents the biz rule that a restaurant does not deliver to the specified zone
+#
 # == Schema Information
 #
 # Table name: restrict_restaurant_delivery_zones
@@ -10,4 +13,6 @@
 #
 
 class RestrictRestaurantDeliveryZone < ApplicationRecord
+    belongs_to :restaurant
+    belongs_to :delivery_zone
 end

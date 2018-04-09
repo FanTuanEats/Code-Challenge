@@ -1,3 +1,6 @@
+##
+# This class represents a Restaurant
+#
 # == Schema Information
 #
 # Table name: restaurants
@@ -9,4 +12,50 @@
 #
 
 class Restaurant < ApplicationRecord
+    has_many :meals
+    has_many :assignments
+    has_many :delivery_zones, through: :assignments
+    has_many :restrict_restaurant_days
+
+    ##
+    # Returns restaurants ordered by those with the last amount of historical delivery assignments ascending, while also
+    # filtering out specific ones based on biz rules
+    # Params:
+    # delivery_zone_id: The ID of delivery zone to sort number of assignments to by
+    # day: The day for which the assignment is going to be for
+    #   Restaurant.find_least_assigned_available(delivery_zone_id, Date.today)
+    def self.find_least_assigned_available(delivery_zone_id, day)
+        least_assigned = self
+            .find_least_assigned(delivery_zone_id)
+            .having("sum(case when assignments.date = '#{day}' and assignments.delivery_zone_id = #{delivery_zone_id} THEN 1 ELSE 0 end) < 3")
+        least_assigned = least_assigned.where('restaurants.id not in (?)', self.restricted_ids(delivery_zone_id, day)) unless self.restricted_ids(delivery_zone_id, day).blank?
+        least_assigned.first
+    end
+
+    private
+
+    ##
+    # Returns the IDs of restaurants that are restricted from delivering to the input zone and on the input day
+    # Params:
+    # delivery_zone_id: The ID of delivery zone to sort number of assignments to by
+    # day: The day for which the assignment is going to be for
+    #   self.restrict_ids(delivery_zone_id, Date.today)
+    def self.restricted_ids(delivery_zone_id, day)
+        restrict_ids = RestrictRestaurantDay.where(day: day.wday).pluck(:restaurant_id)
+        restrict_ids.concat RestrictRestaurantDeliveryZone.where(delivery_zone_id: delivery_zone_id).pluck(:restaurant_id)
+        restrict_ids
+    end
+
+    ##
+    # Returns restaurants ordered by those with the least amount of historical delivery assignements to the input zone ascending
+    # Params:
+    # delivery_zone_id: The ID of delivery zone to sort number of assignments to by
+    #   self.find_least_assigned(delivery_zone)
+    def self.find_least_assigned(delivery_zone_id)
+        Restaurant.select("restaurants.id, 
+            sum(CASE WHEN assignments.delivery_zone_id = #{delivery_zone_id} THEN 1 ELSE 0 end) AS assignment_count")
+            .left_joins(:assignments)
+            .group(:id).order('COUNT(assignments.id) asc, assignment_count asc, restaurants.created_at asc')
+    end
+    
 end

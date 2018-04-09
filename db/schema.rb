@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 20180404173124) do
 
   create_table "meals", force: :cascade do |t|
     t.string "name"
-    t.uuid "restaurant_id"
+    t.integer "restaurant_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

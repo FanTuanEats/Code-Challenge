@@ -1,3 +1,6 @@
+##
+# This class represents the a meal.
+#
 # == Schema Information
 #
 # Table name: meals
@@ -10,4 +13,5 @@
 #
 
 class Meal < ApplicationRecord
+    belongs_to :restaurant
 end

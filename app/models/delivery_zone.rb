@@ -1,3 +1,6 @@
+##
+# This class represents a delivery zone
+#
 # == Schema Information
 #
 # Table name: delivery_zones
@@ -9,4 +12,6 @@
 #
 
 class DeliveryZone < ApplicationRecord
+    has_many :assignments
+    has_many :restaurants, through: :assignments
 end

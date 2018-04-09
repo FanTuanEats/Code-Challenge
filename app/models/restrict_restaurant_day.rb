@@ -1,3 +1,6 @@
+##
+# This class represents the biz rule that a restaurant does not deliver on a specific day of the week.
+#
 # == Schema Information
 #
 # Table name: restrict_restaurant_days
@@ -10,4 +13,7 @@
 #
 
 class RestrictRestaurantDay < ApplicationRecord
+    belongs_to :restaurant
+
+    enum day: [ :sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday ]
 end
