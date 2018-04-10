@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180404173124) do
+ActiveRecord::Schema.define(version: 20180409235316) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,8 @@ ActiveRecord::Schema.define(version: 20180404173124) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "api_key"
+    t.index ["api_key"], name: "index_restaurants_on_api_key", unique: true
   end
 
   create_table "restrict_restaurant_days", force: :cascade do |t|

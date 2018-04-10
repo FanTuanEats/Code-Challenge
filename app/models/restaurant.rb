@@ -16,6 +16,7 @@ class Restaurant < ApplicationRecord
     has_many :assignments
     has_many :delivery_zones, through: :assignments
     has_many :restrict_restaurant_days
+    before_create :generate_api_key
 
     ##
     # Returns restaurants ordered by those with the last amount of historical delivery assignments ascending, while also
@@ -33,7 +34,16 @@ class Restaurant < ApplicationRecord
         least_assigned.first
     end
 
-    private
+    
+    private 
+
+    ##
+    # Generates the unique API key for the restaurant
+    def generate_api_key
+        begin
+            self.api_key = SecureRandom.uuid
+        end while Restaurant.exists?(api_key: api_key)
+    end
 
     ##
     # Returns the IDs of restaurants that are restricted from delivering to the input zone and on the input day

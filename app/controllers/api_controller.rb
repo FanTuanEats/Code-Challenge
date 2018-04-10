@@ -4,7 +4,7 @@
 class ApiController < ResourceController
 
     before_action :cors
-    # before_action :authenticate
+    before_action :authenticate
     
     rescue_from StandardError do |exception|
         handle_rescue(exception)
@@ -14,13 +14,12 @@ class ApiController < ResourceController
 
     # Authenticates the api_key parameter
     def authenticate
-        # Commented out for now until we require an api_key to use the api - JA
-        # validate_params_required ['api_key']
-        # ValidationHelper.validate_uuid_format(params['api_key'])
-        # @current_user = User.find_by(api_key: params['api_key'])
-        # raise ApiException.new(
-        #     major_code: StatusCodes::FORBIDDEN
-        # ), 'Invalid API Key: ' + params['api_key'] unless @current_user
+        validate_params_required ['api_key']
+        ValidationHelper.validate_uuid_format(params['api_key'])
+        @current_user = Restaurant.find_by(api_key: params['api_key'])
+        raise ApiException.new(
+            major_code: StatusCodes::FORBIDDEN
+        ), 'Invalid API Key: ' + params['api_key'] unless @current_user
     end
 
     ##
