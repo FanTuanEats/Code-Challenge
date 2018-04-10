@@ -1,16 +1,41 @@
 %h1.text-center Delivery Assignments
-.table-container
-  %table.table.table-condensed.borderless
-    %thead
-      %tr
-        %th ID
-        %th Date
-        %th Delivery Zone
-        %th Restaurant
-    %tbody
-      - @assignments.each_with_index do |assignment, index|
+- if @assignments.any?
+  .table-container
+    %table.table.table-condensed.borderless
+      %thead
         %tr
-          %td= assignment.id
-          %td= assignment.date
-          %td= link_to(assignment.delivery_zone.name, admin_delivery_zone_path(assignment.delivery_zone_id))
-          %td= link_to(assignment.restaurant.name, admin_restaurant_path(assignment.restaurant_id))
+          %th ID
+          %th Date
+          %th Delivery Zone
+          %th Restaurant
+      %tbody
+        - @assignments.each_with_index do |assignment, index|
+          %tr
+            %td= assignment.id
+            %td= assignment.date
+            %td= link_to(assignment.delivery_zone.name, admin_delivery_zone_path(assignment.delivery_zone_id))
+            %td= link_to(assignment.restaurant.name, admin_restaurant_path(assignment.restaurant_id))
+- elsif @assignment_date <= Date.today
+  .text-center No assignments
+- else
+  %a.btn.btn-info{ href: "/admin/assignments/generate?date=#{@assignment_date}" } Assign Deliveries
+
+%hr
+
+%h3 View Past 7 Day Assignments
+
+%ul
+  - 8.times do | i |
+    - if i != 0
+      %li
+        = link_to((@assignment_date - i.day), admin_assignments_path(date: (@assignment_date - i.day)))
+
+%hr
+
+%h3 View Next 7 Day Assignments
+
+%ul
+  - 8.times do | j |
+    - if j != 0
+      %li
+        = link_to((@assignment_date + j.day), admin_assignments_path(date: (@assignment_date + j.day)))

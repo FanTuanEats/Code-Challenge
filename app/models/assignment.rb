@@ -18,6 +18,9 @@ class Assignment < ApplicationRecord
     belongs_to :restaurant
 
     scope :in_the_future, -> { where("date > ?", Date.today) }
+    scope :today, -> { where("date = ?", Date.today) }
+    scope :in_the_past_week, -> { where("date >= ?", 1.week.ago).where("date < ?", Date.today) }
+    scope :in_the_next_week, -> { where("date > ?", Date.today).where("date <= ?", (Date.today + 1.week)) }
 
     ##
     # Creates assignments for input date range

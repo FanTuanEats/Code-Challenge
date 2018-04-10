@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
+
+    root to: redirect('/admin/assignments')
+
     namespace :admin do
+        get "assignments/generate" => "assignments#generate"
         resources :assignments
         resources :delivery_zones
         resources :restaurants do

@@ -1,6 +1,13 @@
 class Admin::AssignmentsController < ApplicationController
     def index
-        @assignments = Assignment.all.order(:date)
+        @assignment_date = params[:date] ? Date.strptime(params[:date], "%Y-%m-%d") : Date.today
+
+        @assignments = Assignment.where(date: @assignment_date)
+
+        unless params[:date]
+            @past_assignments = Assignment.in_the_past_week
+            @future_assignments = Assignment.in_the_next_week
+        end
     end
   
     def show
@@ -9,8 +16,13 @@ class Admin::AssignmentsController < ApplicationController
 
     def destroy
         Assignment.find(params[:id]).destroy
-        flash[:success] = "Delivery zone deleted"
         redirect_to admin_delivery_zones_url
+    end
+
+    def generate
+        redirect_to admin_assignments_path unless params[:date]
+        Assignment.assign_deliveries_for_day(Date.strptime(params[:date], "%Y-%m-%d"))
+        redirect_to admin_assignments_path(date: params[:date])
     end
 end
   
