@@ -1,0 +1,16 @@
+%h1.text-center Delivery Assignments
+.table-container
+  %table.table.table-condensed.borderless
+    %thead
+      %tr
+        %th ID
+        %th Date
+        %th Delivery Zone
+        %th Restaurant
+    %tbody
+      - @assignments.each_with_index do |assignment, index|
+        %tr
+          %td= assignment.id
+          %td= assignment.date
+          %td= link_to(assignment.delivery_zone.name, admin_delivery_zone_path(assignment.delivery_zone_id))
+          %td= link_to(assignment.restaurant.name, admin_restaurant_path(assignment.restaurant_id))

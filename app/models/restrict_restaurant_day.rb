@@ -16,4 +16,17 @@ class RestrictRestaurantDay < ApplicationRecord
     belongs_to :restaurant
 
     enum day: [ :sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday ]
+
+    after_create :destroy_future_assignments
+
+    private 
+
+    ##
+    # Destroys only the assignments in the future where the restaurant is restricted by the day
+    def destroy_future_assignments
+        Assignment.in_the_future
+            .where(restaurant_id: self.restaurant_id)
+            .where("extract(dow from date) = ?", RestrictRestaurantDay.days[self.day])
+            .destroy_all
+    end
 end

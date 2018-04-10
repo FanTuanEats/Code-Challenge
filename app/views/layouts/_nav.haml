@@ -4,8 +4,8 @@
       %a.navbar-brand= link_to("Chowbus", "/")
     %ul.nav.navbar-nav.navbar-right
       %li.nav-item 
+        = link_to("Delivery Assignments", admin_assignments_path, class: "nav-link") 
+      %li.nav-item 
         = link_to("Delivery Zones", admin_delivery_zones_path, class: "nav-link") 
       %li.nav-item 
         = link_to("Restaurants", admin_restaurants_path, class: "nav-link") 
-      %li.nav-item 
-        = link_to("Meals", admin_meals_path, class: "nav-link") 

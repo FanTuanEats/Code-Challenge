@@ -1,0 +1,15 @@
+%h1.text-center= "New Restricted Delivery Zone for #{@restaurant.name}"
+
+- if @delivery_zones.any?
+  = form_for @restrict_restaurant_delivery_zone, url: admin_restaurant_restrict_restaurant_delivery_zones_path(@restaurant), html: { method: :post } do |f|
+    %p
+      = f.label :delivery_zone_id
+      = f.select :delivery_zone_id, @delivery_zones
+      = f.hidden_field :restaurant_id
+    %p
+      = f.submit "Create", class: 'btn btn-primary'
+      = link_to("Cancel", admin_restaurant_path(@restaurant), class: "btn btn-default text-black")
+
+- else
+  .text-center No available delivery zones.
+  = link_to("Back to restaurant", admin_restaurant_path(@restaurant), class: "btn btn-default text-black")

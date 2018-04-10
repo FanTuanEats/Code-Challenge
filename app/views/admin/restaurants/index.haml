@@ -10,3 +10,5 @@
         %tr
           %td= restaurant.id
           %td= link_to(restaurant.name, admin_restaurant_path(restaurant.id))
+
+= link_to("Add Restaurant", new_admin_restaurant_path, class: "btn btn-success text-white")

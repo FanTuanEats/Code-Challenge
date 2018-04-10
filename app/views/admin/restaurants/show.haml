@@ -5,57 +5,69 @@
 
 %hr
 
-%h2 Meals:
+%h2 Meals
 
-.table-container
-  %table.table.table-condensed.borderless
-    %thead
-      %tr
-        %th ID
-        %th Name
-    %tbody
-      - @restaurant.meals.order(:name).each_with_index do |meal, index|
+- if @restaurant.meals.any?
+  .table-container
+    %table.table.table-condensed.borderless
+      %thead
         %tr
-          %td= meal.id
-          %td= link_to(meal.name, admin_meal_path(meal.id))
+          %th ID
+          %th Name
+      %tbody
+        - @restaurant.meals.order(:name).each_with_index do |meal, index|
+          %tr
+            %td= meal.id
+            %td= link_to(meal.name, admin_restaurant_meal_path(meal.id))
+
+%p
+  = link_to("Add Meal", new_admin_restaurant_meal_path(@restaurant), class: "btn btn-success text-white")
 
 %hr
 
 %h2 Delivery Restrictions
 
 %h3 Restrcted Delivery Zones
-.table-container
-  - if @restaurant.restrict_restaurant_delivery_zones.any?
+- if @restaurant.restrict_restaurant_delivery_zones.any?
+  .table-container
     %table.table.table-condensed.borderless
       %thead
         %tr
           %th ID
           %th Name
+          %th 
       %tbody
         - @restaurant.restrict_restaurant_delivery_zones.each_with_index do |restricted_delivery_zone, index|
           %tr
             %td= restricted_delivery_zone.id
             %td= restricted_delivery_zone.delivery_zone.name
-  - else
-    .text-center None Available
+            %td= link_to("Remove", admin_restaurant_restrict_restaurant_delivery_zone_path(@restaurant.id, restricted_delivery_zone), method: :delete, class: "btn btn-danger text-white", data: { confirm: "Are you sure you wish to remove this restriction?" })
 
+%p
+  = link_to("Add Restricted Delivery Zone", new_admin_restaurant_restrict_restaurant_delivery_zone_path(@restaurant), class: "btn btn-success text-white")
 
 %h3 Restrcted Weekdays
-.table-container
-  - if @restaurant.restrict_restaurant_days.any?
+- if @restaurant.restrict_restaurant_days.any?
+  .table-container
     %table.table.table-condensed.borderless
       %thead
         %tr
           %th ID
           %th Name
+          %th
       %tbody
         - @restaurant.restrict_restaurant_days.each_with_index do |restricted_day, index|
           %tr
             %td= restricted_day.id
             %td= restricted_day.day.capitalize
-  - else
-    .text-center None Available
+            %td= link_to("Remove", admin_restaurant_restrict_restaurant_day_path(@restaurant.id, restricted_day), method: :delete, class: "btn btn-danger text-white", data: { confirm: "Are you sure you wish to remove this restriction?" })
+%p
+  = link_to("Add Restricted Delivery Weekday", new_admin_restaurant_restrict_restaurant_day_path(@restaurant), class: "btn btn-success text-white")
 
 %hr
 
+= link_to("Edit #{@restaurant.name}", edit_admin_restaurant_path(@restaurant.id), class: "btn btn-info text-white")
+
 = link_to("Delete #{@restaurant.name}", admin_restaurant_path(@restaurant.id), method: :delete, class: "btn btn-danger text-white", data: { confirm: "Are you sure you wish to delete?" })
+
+= link_to("All Restaurants", admin_restaurants_path, class: "float-right")

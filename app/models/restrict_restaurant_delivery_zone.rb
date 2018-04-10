@@ -15,4 +15,16 @@
 class RestrictRestaurantDeliveryZone < ApplicationRecord
     belongs_to :restaurant
     belongs_to :delivery_zone
+    after_create :destroy_future_assignments
+
+    private 
+
+    ##
+    # Destroys only the assignments in the future where the restaurant is restricted by the delivery zone
+    def destroy_future_assignments
+        Assignment.in_the_future
+            .where(restaurant_id: self.restaurant_id)
+            .where(delivery_zone_id: self.delivery_zone_id)
+            .destroy_all
+    end
 end

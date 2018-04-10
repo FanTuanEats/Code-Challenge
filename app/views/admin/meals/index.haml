@@ -11,4 +11,4 @@
         %tr
           %td= meal.id
           %td= link_to(meal.restaurant.name, admin_restaurant_path(meal.restaurant_id))
-          %td= link_to(meal.name, admin_meal_path(meal.id))
+          %td= link_to(meal.name, admin_restaurant_meal_path(meal.id))

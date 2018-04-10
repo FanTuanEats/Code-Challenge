@@ -1,0 +1,9 @@
+%h1.text-center Edit Restaurant
+
+= form_for @restaurant, url: {:action => "update", :id => @restaurant}, html: { method: :put } do |f|
+  %p
+    = f.label :name
+    = f.text_field :name, class: 'form-control'
+  %p
+    = f.submit "Save", class: 'btn btn-primary'
+    = link_to("Cancel", admin_restaurant_path(@restaurant), class: "btn btn-default text-black")
