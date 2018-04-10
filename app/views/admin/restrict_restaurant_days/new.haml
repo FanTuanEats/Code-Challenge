@@ -1,0 +1,11 @@
+%h1.text-center= "New Restricted Day for #{@restaurant.name}"
+
+= form_for @restrict_restaurant_day, url: admin_restaurant_restrict_restaurant_days_path(@restaurant), html: { method: :post } do |f|
+  %p
+    = f.label :day
+    = f.hidden_field :restaurant_id
+    = f.select :day, RestrictRestaurantDay.days.keys.map{ |d| [d.capitalize, d]}
+  %p
+    = f.submit "Create", class: 'btn btn-primary'
+    = link_to("Cancel", admin_restaurant_path(@restaurant), class: "btn btn-default text-black")
+    

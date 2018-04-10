@@ -1,0 +1,10 @@
+%h1.text-center= "New Meal at #{@restaurant.name}"
+
+= form_for @meal, url: admin_restaurant_meals_path(@restaurant), html: { method: :post } do |f|
+  %p
+    = f.label :name
+    = f.text_field :name, class: 'form-control'
+    = f.hidden_field :restaurant_id
+  %p
+    = f.submit "Create", class: 'btn btn-primary'
+    = link_to("Cancel", admin_restaurant_path(@restaurant), class: "btn btn-default text-black")

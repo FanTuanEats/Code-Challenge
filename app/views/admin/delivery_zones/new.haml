@@ -1,0 +1,8 @@
+%h1.text-center New Delivery Zone
+
+= form_for @delivery_zone, url: {:action => "create"}, html: { method: :post } do |f|
+  %p
+    = f.label :name
+    = f.text_field :name, class: 'form-control'
+  %p
+    = f.submit "Create", class: 'btn btn-primary'

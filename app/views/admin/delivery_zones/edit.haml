@@ -1,0 +1,9 @@
+%h1.text-center Edit Delivery Zone
+
+= form_for @delivery_zone, url: {:action => "update", :id => @delivery_zone}, html: { method: :put } do |f|
+  %p
+    = f.label :name
+    = f.text_field :name, class: 'form-control'
+  %p
+    = f.submit "Save", class: 'btn btn-primary'
+    = link_to("Cancel", admin_delivery_zone_path(@delivery_zone), class: "btn btn-default text-black")

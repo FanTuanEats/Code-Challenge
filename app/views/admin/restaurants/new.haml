@@ -1,0 +1,8 @@
+%h1.text-center New Restaurant
+
+= form_for @restaurant, url: {:action => "create"}, html: { method: :post } do |f|
+  %p
+    = f.label :name
+    = f.text_field :name, class: 'form-control'
+  %p
+    = f.submit "Create", class: 'btn btn-primary'

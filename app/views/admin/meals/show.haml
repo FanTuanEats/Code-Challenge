@@ -1,0 +1,12 @@
+%h1.text-center Meal
+
+%h2= @meal.name
+
+
+%hr
+
+= link_to("Edit #{@meal.name}", edit_admin_restaurant_meal_path(@meal.id), class: "btn btn-info text-white")
+
+= link_to("Delete #{@meal.name}", admin_restaurant_meal_path(@meal.id), method: :delete, class: "btn btn-danger text-white", data: { confirm: "Are you sure you wish to delete?" })
+
+= link_to(@meal.restaurant.name, admin_restaurant_path(@meal.restaurant.id), class: "float-right")

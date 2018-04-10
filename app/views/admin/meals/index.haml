@@ -1,0 +1,14 @@
+%h1.text-center Meals
+.table-container
+  %table.table.table-condensed.borderless
+    %thead
+      %tr
+        %th ID
+        %th Name
+        %th Restaurant
+    %tbody
+      - @meals.each_with_index do |meal, index|
+        %tr
+          %td= meal.id
+          %td= link_to(meal.restaurant.name, admin_restaurant_path(meal.restaurant_id))
+          %td= link_to(meal.name, admin_restaurant_meal_path(meal.id))
