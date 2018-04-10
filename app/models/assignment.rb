@@ -57,4 +57,26 @@ class Assignment < ApplicationRecord
         end
     end
 
+
+    ##
+    # Creates the json string representation of the Assignment
+    #
+    def as_json(options={})
+        super(
+            only: [:id, :date],
+            include: {
+                delivery_zone: {
+                    only: [:id, :name]
+                },
+                restaurant: {
+                    only: [:id, :name],
+                    include: {
+                        meals: {
+                            only: [:id, :name]
+                        }
+                    }
+                }
+            }
+        )
+    end
 end

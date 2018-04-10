@@ -9,6 +9,7 @@
 #  name       :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  api_key    :uuid
 #
 
 class Restaurant < ApplicationRecord

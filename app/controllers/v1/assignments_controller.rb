@@ -24,7 +24,6 @@ class V1::AssignmentsController < ApiController
         conditions << "assignments.date = ?" if params[:day]
         conditions << "restaurants.api_key = ?" if params[:api_key]
 
-
         fp = []
         fp << conditions.join(" AND ") if conditions.length > 0
 

@@ -7,7 +7,7 @@
 #
 #  id            :integer          not null, primary key
 #  name          :string
-#  restaurant_id :uuid
+#  restaurant_id :integer
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #
