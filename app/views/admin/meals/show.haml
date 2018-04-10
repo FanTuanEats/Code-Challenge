@@ -1,0 +1,3 @@
+%h1.text-center= "Meal: " + @meal.name
+
+%h3.text-center= link_to(@meal.restaurant.name, admin_restaurant_path(@meal.restaurant.id))

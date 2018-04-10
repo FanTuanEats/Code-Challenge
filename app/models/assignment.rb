@@ -17,6 +17,8 @@ class Assignment < ApplicationRecord
     belongs_to :delivery_zone
     belongs_to :restaurant
 
+    scope :in_the_future, -> { where("date > ?", Date.today) }
+
     ##
     # Creates assignments for input date range
     # Params:
@@ -56,7 +58,6 @@ class Assignment < ApplicationRecord
             end
         end
     end
-
 
     ##
     # Creates the json string representation of the Assignment

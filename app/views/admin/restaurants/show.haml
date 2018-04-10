@@ -1,0 +1,61 @@
+%h1.text-center Restaurant
+
+%h2= @restaurant.name
+
+
+%hr
+
+%h2 Meals:
+
+.table-container
+  %table.table.table-condensed.borderless
+    %thead
+      %tr
+        %th ID
+        %th Name
+    %tbody
+      - @restaurant.meals.order(:name).each_with_index do |meal, index|
+        %tr
+          %td= meal.id
+          %td= link_to(meal.name, admin_meal_path(meal.id))
+
+%hr
+
+%h2 Delivery Restrictions
+
+%h3 Restrcted Delivery Zones
+.table-container
+  - if @restaurant.restrict_restaurant_delivery_zones.any?
+    %table.table.table-condensed.borderless
+      %thead
+        %tr
+          %th ID
+          %th Name
+      %tbody
+        - @restaurant.restrict_restaurant_delivery_zones.each_with_index do |restricted_delivery_zone, index|
+          %tr
+            %td= restricted_delivery_zone.id
+            %td= restricted_delivery_zone.delivery_zone.name
+  - else
+    .text-center None Available
+
+
+%h3 Restrcted Weekdays
+.table-container
+  - if @restaurant.restrict_restaurant_days.any?
+    %table.table.table-condensed.borderless
+      %thead
+        %tr
+          %th ID
+          %th Name
+      %tbody
+        - @restaurant.restrict_restaurant_days.each_with_index do |restricted_day, index|
+          %tr
+            %td= restricted_day.id
+            %td= restricted_day.day.capitalize
+  - else
+    .text-center None Available
+
+%hr
+
+= link_to("Delete #{@restaurant.name}", admin_restaurant_path(@restaurant.id), method: :delete, class: "btn btn-danger text-white", data: { confirm: "Are you sure you wish to delete?" })

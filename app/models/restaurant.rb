@@ -13,11 +13,13 @@
 #
 
 class Restaurant < ApplicationRecord
-    has_many :meals
+    has_many :meals, dependent: :destroy
     has_many :assignments
     has_many :delivery_zones, through: :assignments
-    has_many :restrict_restaurant_days
+    has_many :restrict_restaurant_delivery_zones, dependent: :destroy
+    has_many :restrict_restaurant_days, dependent: :destroy
     before_create :generate_api_key
+    after_destroy :destroy_future_assignments
 
     ##
     # Returns restaurants ordered by those with the last amount of historical delivery assignments ascending, while also
@@ -35,8 +37,13 @@ class Restaurant < ApplicationRecord
         least_assigned.first
     end
 
-    
     private 
+
+    ##
+    # Destroys only the assignments in the future
+    def destroy_future_assignments
+        self.assignments.in_the_future.destroy_all
+    end
 
     ##
     # Generates the unique API key for the restaurant

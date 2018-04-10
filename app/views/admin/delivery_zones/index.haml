@@ -1,0 +1,12 @@
+%h1.text-center.bd-title Delivery Zones
+.table-container
+  %table.table.table-condensed.borderless
+    %thead
+      %tr
+        %th ID
+        %th Name
+    %tbody
+      - @delivery_zones.each_with_index do |delivery_zone, index|
+        %tr
+          %td= delivery_zone.id
+          %td= link_to(delivery_zone.name, admin_delivery_zone_path(delivery_zone.id))
